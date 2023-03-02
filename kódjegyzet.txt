@@ -1,0 +1,84 @@
+package hu.fzks.matrix.elforgatas;
+
+import java.util.Arrays;
+
+public class Matrix {
+    private int m;
+    private int n;
+    private int r;
+
+    private int[][] matrix;
+
+    public Matrix(int m, int n, int r) {
+        if (m % 2 == 0){
+            this.m = m;
+        } else {
+            m = m + 1;
+            this.m = m;
+        }
+        if (n % 2 == 0){
+            this.n = n;
+        } else {
+            n = n + 1;
+            this.n = n;
+        }
+        this.r = r;
+        this.matrix = new int[m][n];
+        int korokSzama = this.m > this.n ? this.n / 2 : this.m / 2;
+        matrixFeltoltFullra(this.m, this.n, korokSzama);
+    }
+
+    public void matrixFeltolt(int sor, int oszlop, int korokSzama){
+        int csokkentes = 2;
+        sor -= csokkentes;
+        oszlop -= csokkentes;
+        System.out.println("sor " + sor);
+        System.out.println("oszlop " + oszlop);
+        int felso = 1;
+        int also = ((oszlop - csokkentes) * 2) + (sor - csokkentes - 2);
+        int korSorszama = 0 + csokkentes;
+        System.out.println("felso " + felso);
+        System.out.println("also " + also);
+        for (int j = korSorszama; j < oszlop; j++)
+        {
+            this.matrix[korSorszama][j] = felso;
+            this.matrix[sor - 1][j] = also;
+            felso++;
+            also--;
+        }
+        int jobb = oszlop + 1 - csokkentes;
+        int bal = also + 1 + (oszlop - csokkentes); // ((sor - 2) - csokkentes) * 2 + ((2 * oszlop) - csokkentes);
+        System.out.println("jobb " + jobb);
+        System.out.println("bal " + bal);
+        for (int i = csokkentes; i < sor - (csokkentes * 2); i++){
+            this.matrix[i][korSorszama] = bal;
+            this.matrix[i][oszlop - 1] = jobb;
+            bal--;
+            jobb++;
+        }
+    }
+
+    public void matrixFeltoltFullra(int sor, int oszlop, int korokSzama){
+        matrixFeltolt(m, n, korokSzama);
+    }
+
+    public void matrixElforgatas(){
+
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < this.m; i++)
+        {
+            for (int j = 0; j < this.n; j++)
+            {
+                stringBuilder.append(String.format("%3d ", this.matrix[i][j]));
+            }
+            stringBuilder.append("\n");
+
+        }
+
+        return stringBuilder.toString();
+    }
+}
